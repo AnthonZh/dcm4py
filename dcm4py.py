@@ -109,7 +109,7 @@ def get_metadata(slice_path):
     mdata_dict['spacing']= dicom_image.GetSpacing() 
     return mdata_dict
  
-def dcm2npy_pid(pid_input_path, normalize=False, norm_range=[0,1]): 
+def dcm2npy(pid_input_path, normalize=False, norm_range=[0,1]): 
  
     meta_data_dict={} 
     slices_sorted, file_names_sorted= load_scan(pid_input_path)
@@ -136,7 +136,7 @@ def dcm2npy_pid(pid_input_path, normalize=False, norm_range=[0,1]):
 
  
 
-def npy2dcm_pid(npy_array,meta_data_dict, dcm_out_path, patient_id, denormalize=False, norm_range=[0,1]): 
+def npy2dcm(npy_array,meta_data_dict, dcm_out_path, patient_id, denormalize=False, norm_range=[0,1]): 
         
     if not os.path.exists(dcm_out_path):
         os.makedirs(dcm_out_path)
