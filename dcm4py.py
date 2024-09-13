@@ -48,10 +48,8 @@ def normalize_array(arr, min_value, max_value, norm_range=[0,1]):
     scaled_arr = normalized_arr * (norm_range[1] - norm_range[0]) + norm_range[0]
     return scaled_arr
 
-def denormalize_array(scaled_arr, min_value, max_value, norm_range=[0,1]):
-    # Veriyi normalize edilmiş aralıktan (norm_range) 0-1 aralığına geri getir
-    normalized_arr = (scaled_arr - norm_range[0]) / (norm_range[1] - norm_range[0])
-    # Orijinal aralığa (min_value, max_value) geri döndür
+def denormalize_array(scaled_arr, min_value, max_value, norm_range=[0,1]): 
+    normalized_arr = (scaled_arr - norm_range[0]) / (norm_range[1] - norm_range[0]) 
     original_arr = normalized_arr * (max_value - min_value) + min_value
     return original_arr
 
