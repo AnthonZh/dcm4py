@@ -27,7 +27,7 @@ def get_original_pixels(npy_slices, data_dict,denormalize,norm_range):
 
 def get_pixels_hu(slices):
     image = np.stack([s.pixel_array for s in slices])  
-    image = image.astype(np.uint16)
+    image = image.astype(np.int16)
     image[image == -2000] = 0
     data_dict={}
     for slice_number in range(len(slices)):
@@ -39,9 +39,9 @@ def get_pixels_hu(slices):
         data_dict[slice_number]['slope']=slope
         if slope != 1:
             image[slice_number] = slope * image[slice_number].astype(np.float64)
-            image[slice_number] = image[slice_number].astype(np.uint16)
-        image[slice_number] += np.uint16(intercept)
-    return np.array(image, dtype=np.uint16),data_dict
+            image[slice_number] = image[slice_number].astype(np.int16)
+        image[slice_number] += np.int16(intercept)
+    return np.array(image, dtype=np.int16),data_dict
  
 def normalize_array(arr, min_value, max_value, norm_range=[0,1]): 
     normalized_arr = (arr - min_value) / (max_value - min_value) 
