@@ -11,7 +11,7 @@
 
 ## Installation
 
-You can install requirements via pip (if applicable, otherwise include manual installation instructions):
+You can install requirements via pip:
 
 ```bash
 pip install -r requirements.txt
@@ -21,16 +21,18 @@ pip install -r requirements.txt
 
 ### Convert DICOM to NumPy
 
-To generate a NumPy array from DICOM images, submit the path to your raw DICOM image. You can set the `normalize` parameter to `True` if you want to normalize the array values, and you can define a normalization range.
+To generate a numpy array from DICOM images, use the dcm2npy function and input the path to the directory of DICOM images. The `normalize` parameter to `True`  to normalize the array values, and the range to normalize to can be defined in the `norm_range` parameter.
 
 ```python
-hu_pixels, meta_data_dict = dcm2npy('LDCT_raw/full_1mm/L067', normalize=True, norm_range=[0,1])
+from dcm4py import dcm2npy
+slices, dataset = dcm2npy('/path/to/input_directory', normalize=True, norm_range=(0, 1))
 ```
 
 ### Convert NumPy to DICOM
 
-After processing the `hu_pixels` NumPy array, you can convert it back to DICOM images using the following code:
+After processing the `slices` NumPy array, you can convert it back to DICOM images in a specified folder using the npy2dcm function. If the array was previously normalized, it can be denormalized by setting the `denormalize` parameter to `True`. The current range of the array must be specified.
 
 ```python
-npy2dcm(npy_array=hu_pixels, meta_data_dict=meta_data_dict, dcm_out_path='LDCT_test/full_1mm/L067', patient_id='L067', denormalize=True, norm_range=[0,1])
+from dcm4py import npy2dcm
+npy2dcm(output_path='/path/to/output_directory', slices=slices, dataset=dataset, denormalize=True, current_range=(0, 1))
 ```

@@ -60,7 +60,7 @@ def normalize_array(arr: np.ndarray, min_value: float, max_value: float, norm_ra
     scaled_arr = normalized_arr * (norm_range[1] - norm_range[0]) + norm_range[0]
     return scaled_arr
 
-def npy2dcm(output_path:str, slices:np.ndarray, dataset:np.ndarray, denormalize:bool=False, denormalize_range:Iterable=None):
+def npy2dcm(output_path:str, slices:np.ndarray, dataset:np.ndarray, denormalize:bool=False, current_range:Iterable=None):
     r"""
     Converts a ndarray into a series of DICOM files.
 
@@ -74,13 +74,13 @@ def npy2dcm(output_path:str, slices:np.ndarray, dataset:np.ndarray, denormalize:
         An array of pydicom datasets containing the metadata for each corresponding slice in ``slices``.
     denormalize : bool
         If the slices need to be denormalized.
-    denormalize_range : Iterable
+    current_range : Iterable
         The range of values that the array is currently normalized to.
     """
     assert len(slices) == len(dataset)
     if denormalize:
-        assert denormalize_range is not None
-        slices = normalize_array(slices, denormalize_range[0], denormalize_range[1], norm_range=(0, 4095)).astype(np.uint16)
+        assert current_range is not None
+        slices = normalize_array(slices, current_range[0], current_range[1], norm_range=(0, 4095)).astype(np.uint16)
 
     for i in range(len(slices)):
         ds = dataset[i]
